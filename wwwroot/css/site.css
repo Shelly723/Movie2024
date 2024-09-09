@@ -19,6 +19,7 @@ html {
 
 body {
     margin-bottom: 60px;
+    background-color:#000;
     background-image: url("../lib/img/background1.jpg");
     background-size: cover;
     color: #fff;

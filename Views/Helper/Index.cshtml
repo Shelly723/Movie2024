@@ -2,47 +2,100 @@
     ViewBag.Title = "會員登入";
 }
 
-<h2>會員登入</h2>
-
 <div class="container">
-    <form action="~/Helper/Login" method="post">
-        <div>
-            <label>帳號:</label>
-            <input type="text" name="id" class="form-control" required />
-        </div>
-        <br />
-        <div>
-            <label>密碼:</label>
-            <input type="password" name="password" class="form-control" required />
-        </div>
-        <br />
-        <div>
-            <input type="submit" name="submit" value="登入" class="btn login-btn" />
-        </div>
-
-    </form>
+    <div class="form-section">
+        <h2>會 員 登 入</h2>
+        <form action="~/Helper/Login" method="post">
+            <div>
+                <label>帳 號</label>
+                <input type="text" name="id" class="form-control" required />
+            </div>
+            <br />
+            <div>
+                <label>密 碼</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+            <br />
+            <div class="button-container">
+                <input type="submit" name="submit" value="登 入" class="btn login-btn" />
+                <input type="submit" name="submit" value="註 冊" class="btn register-btn" />
+            </div>
+        </form>
+    </div>
+    <img src="~/lib/img/pop.jpg" alt="Alternate Text" class="side-image" />
 </div>
+
 @if (ViewBag.ErrorMessage != null)
 {
     <div class="alert alert-danger">
         @ViewBag.ErrorMessage
     </div>
 }
-<style>
 
-    .login-btn {
-        width: 30%;
-        padding: 12px;
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .form-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+    .button-container {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .login-btn, .register-btn {
+        width: 48%;
+        padding: 8px;
         border: none;
         border-radius: 5px;
-        background: linear-gradient(90deg, #ff5c97, #ff6a6a);
-        color: white;
-        font-weight: bold;
         cursor: pointer;
         transition: background 0.3s ease;
     }
 
-    .login-btn:hover {
-        background: linear-gradient(90deg, #ff6a6a, #ff5c97);
+    .login-btn {
+        background: linear-gradient(90deg, #ff5c97, #EB3678);
+        color: white;
+        font-weight: bold;
+        margin-left:5px;
+    }
+
+        .login-btn:hover {
+            background: linear-gradient(90deg, #EB3678, #ff5c97);
+            color: white;
+            box-shadow: 0 0 15px #F8BDEB;
+        }
+
+    .register-btn {
+        border: none;
+        color: #EB3678;
+        text-shadow: 0 0 15px #F8BDEB;
+        margin-top: 5px;
+    }
+
+        .register-btn:hover {
+          
+            color: white;
+            text-shadow: 0 0 15px white;
+        }
+
+    .side-image {
+        width: 50%;
+        margin-left: 50px;
+        border-radius:10%;
     }
 </style>
