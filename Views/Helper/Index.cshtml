@@ -17,7 +17,7 @@
         </div>
         <br />
         <div>
-            <input type="submit" name="submit" value="登入" class="btn btn-primary" />
+            <input type="submit" name="submit" value="登入" class="btn login-btn" />
         </div>
 
     </form>
@@ -28,3 +28,21 @@
         @ViewBag.ErrorMessage
     </div>
 }
+<style>
+
+    .login-btn {
+        width: 30%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background: linear-gradient(90deg, #ff5c97, #ff6a6a);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .login-btn:hover {
+        background: linear-gradient(90deg, #ff6a6a, #ff5c97);
+    }
+</style>

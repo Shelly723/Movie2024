@@ -35,5 +35,9 @@ namespace Movie2024.Controllers
             ViewBag.ErrorMessage = "驗證失敗";
             return View("Index");
         }
+        public IActionResult Login2()
+        {
+            return View();
+        }
     }
 }

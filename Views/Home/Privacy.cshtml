@@ -2,19 +2,28 @@
 @{
     ViewBag.Title = "Privacy";
 }
-
+<style>
+    hr{
+     
+        margin-top:30px;
+        border: 2px solid #fff;
+    }
+</style>
 <a href="#4">333</a>
 <form method="post">
    
     @foreach (var user in Model)
     {
         <div id="@user.MovieID">
+           
             <h3>@user.MovieTitle</h3>
             <p>電影級別：@user.MovieGenre</p>
             <p>電影片長：@user.MovieDuration</p>
             <p>上映日期：@user.ReleaseDate</p>
             <p>電影描述：@user.MovieDescription</p>
             <img src="~/lib/@user.MoviePicture" alt="Alternate Text" />      
+            <hr />
+
         </div>
         <br />
     }
