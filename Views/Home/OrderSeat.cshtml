@@ -1,0 +1,65 @@
+﻿@model List<Seats>
+@{
+    ViewBag.Title = "Seats";
+}
+
+<div class="text-center" id="app">
+    <h5 class="display-6">{{ msg }}</h5>
+    <input type="" value="" />
+    <form method="post">
+        @foreach (var seat in Model)
+        {
+          
+            <button type="button"
+                    v-on:click="updateAvailability('@seat.SeatNumber')"
+                    :class="{'btn-danger': selectedSeat === '@seat.SeatNumber', 'btn-light': selectedSeat !== '@seat.SeatNumber'}">
+                @seat.SeatNumber
+            </button>
+        }
+       
+    </form>
+</div>
+<div>
+    <a asp-action="Index">↫ Back to Home</a>
+</div>
+
+@section Scripts {
+  
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    msg: "選擇座位",
+                    selectedSeat: null, // 追蹤選中的座位
+                }
+            },
+            methods: {
+                async updateAvailability(seatNumber) {
+                    try {
+                        // 發送 POST 請求到後端
+                        const response = await fetch('/Home/UpdateAvailability', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ seatNumber: seatNumber })
+                        });
+
+                        if (response.ok) {
+                            this.selectedSeat = seatNumber; // 更新選中的座位
+                            this.msg = `已預訂 ${seatNumber}`; // 更新消息
+                        } else {
+                            this.msg = "更新失敗";
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        this.msg = "更新失敗";
+                    }
+                }
+            }
+        });
+
+        const vm = app.mount('#app');
+    </script>
+}

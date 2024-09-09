@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\img\1.jpg" />
+    <None Include="wwwroot\lib\img\2.jpg" />
+    <None Include="wwwroot\lib\img\3.jpg" />
+    <None Include="wwwroot\lib\img\4.jpg" />
+    <None Include="wwwroot\lib\img\5.jpg" />
+    <None Include="wwwroot\lib\img\banner\1-1.jpg" />
+    <None Include="wwwroot\lib\img\banner\2-1.jpg" />
+    <None Include="wwwroot\lib\img\banner\3-1.jpg" />
+    <None Include="wwwroot\lib\img\banner\4-1.jpg" />
+    <None Include="wwwroot\lib\img\banner\5-1.jpg" />
+    <None Include="wwwroot\lib\img\front_icon.png" />
+    <None Include="wwwroot\lib\img\斜線背景.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+  </ItemGroup>
+
+</Project>
