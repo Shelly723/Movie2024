@@ -1,22 +1,86 @@
-﻿@{
-    ViewData["Title"] = "OO影城";
+﻿@model List<Movies>
+@{
+    ViewData["Title"] = "Home Page";
 }
-@model Users
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" >
+
+<style>
+    .card_out {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        z-index: 1;
+    }
+
+        .card_out .card {
+            margin: 10px;
+            color: #000;
+        }
+
+            .card_out .card img {
+                height: 350px;
+                width: 100%; /* 讓圖片自動適應卡片的寬度 */
+                object-fit: cover; /* 防止圖片變形 */
+            }
+
+        .card_out::-webkit-scrollbar {
+            display: none;
+        }
+
+    #card_out_out {
+        position: relative;
+    }
+
+    .card-text {
+        max-height: 100px; /* Adjust this value to fit your needs */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Number of lines to show before truncating */
+        -webkit-box-orient: vertical;
+    }
+
+    #btnLast {
+        width: 50px;
+        height: 100px;
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 10px;
+        border: none;
+        font-size: 30px;
+        background-color: #0000;
+        color: lightblue;
+    }
+
+    #btnPast {
+        width: 50px;
+        height: 100px;
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        right: 10px;
+        border: none;
+        font-size: 30px;
+        background-color: #0000;
+        color: lightblue;
+    }
+</style>
+@* 輪播廣告↓ *@
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-    <div class="carousel-inner" >
+    <div class="carousel-inner" style="max-height:400px">
         <div class="carousel-item active">
-            <img src="/lib/\img/banner/1-1.jpg" class="d-block w-100" alt="..." >
+            <img src="~/lib/img/banner/1-1.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="/lib/\img/banner/2-1.jpg" class="d-block w-100" alt="...">
+            <img src="~/lib/img/banner/2-1.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-            <img src="/lib/\img/banner/3-1.jpg" class="d-block w-100" alt="...">
+            <img src="~/lib/img/banner/3-1.jpg" class="d-block w-100" alt="...">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -28,3 +92,54 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+@* 快速訂位列↓ *@
+<div style="background-color:#03346E; margin:10px 0;padding:10px;font-size:20px;display:flex;">
+    <label style="margin-right:50px;font-weight:bold; font-size:22px;">快速訂位</label>
+    <form method="get" action="/Home/OrderSeat">
+        <select name="id" onchange="this.form.submit()">
+            <option value="">請選擇電影</option>
+            @foreach (var movie in Model)
+            {
+                <option value="@movie.MovieID">@movie.MovieTitle</option>
+            }
+        </select>
+    </form>
+</div>
+@* 電影介紹卡↓ *@
+<div id="card_out_out">
+    <button id="btnLast">〈</button>
+    <div class="card_out">
+        @foreach (var user in Model)
+        {
+            <div class="text-center" id="@user.MovieID">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/lib/img/@user.MoviePicture" class="card-img-top" alt="..." width="60%">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color:#10439F;font-size: 1.1rem;font-weight: bolder; margin-bottom:10px; background-image: url('../lib/img/images.jpg');  background-size: cover;">
+                            @user.MovieTitle
+                        </h5>
+                        <p class="card-text">@user.MovieDescription</p>
+                        @* 將 Url(Home/OrderSeat/MovieID)傳給登入 *@
+                        @* <a href="@Url.Action("Index", "Helper", new { returnUrl = Url.Action("OrderSeat", "Home", new { id = user.MovieID }) })" class="btn btn-primary">線上訂票</a> *@
+                        <a href="@Url.Action("OrderSeat", "Home", new { id = user.MovieID })" class="btn btn-primary">線上訂票</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <button id="btnPast">〉</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var btnLast = document.getElementById('btnLast');
+        var btnPast = document.getElementById('btnPast');
+        var cardOut = document.querySelector('.card_out');
+
+        btnLast.addEventListener('click', function () {
+            cardOut.scrollBy({ left: -400, behavior: 'smooth' }); // Scroll left
+        });
+        btnPast.addEventListener('click', function () {
+            cardOut.scrollBy({ left: 400, behavior: 'smooth' });// Scroll right
+        });
+    });
+</script>

@@ -1,31 +1,75 @@
 ﻿@model List<Movies>
 @{
-    ViewBag.Title = "Privacy";
+    ViewBag.Title = "電影介紹";
 }
 <style>
-    hr{
-     
-        margin-top:30px;
+    hr {
+        margin-top: 30px;
         border: 2px solid #fff;
     }
+
+    .imgMovie {
+        height: 600px;
+    }
+
+    .ulMovie {
+        margin: 20px;
+    }
+
+        .ulMovie li {
+            margin: 10px 0px;
+            font-size: 22px
+        }
 </style>
-<a href="#4">333</a>
+
+
 <form method="post">
-   
+
     @foreach (var user in Model)
     {
         <div id="@user.MovieID">
-           
-            <h3>@user.MovieTitle</h3>
-            <p>電影級別：@user.MovieGenre</p>
-            <p>電影片長：@user.MovieDuration</p>
-            <p>上映日期：@user.ReleaseDate</p>
-            <p>電影描述：@user.MovieDescription</p>
-            <img src="~/lib/@user.MoviePicture" alt="Alternate Text" />      
+            <h3>《 @user.MovieTitle 》</h3>
+            <ul class="ulMovie">
+                <li>電影級別：@user.MovieGenre</li>
+                <li>電影片長：@user.MovieDuration 分鐘</li>
+                <li>上映日期：@user.ReleaseDate</li>
+                <li>電影描述：</li>
+                <h5 style="letter-spacing:2px;line-height:30px;">@user.MovieDescription</h5>
+                <div style="display:flex;justify-content:space-around">
+
+                    <img src="~/lib/img/@user.MoviePicture" alt="Alternate Text" class="imgMovie" />
+                    <div style="border-left:#fff solid 1px;padding:30px;">
+                        <h3>預告片</h3>
+                        @switch (@user.MovieID)
+                        {
+                            case 3:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/pf4K7wLSue4?si=GepMGfhJPUT7SPX5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                            case 4:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/hsAvZtEGXPo?si=P_jJc8NeeP8f_l2R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                            case 5:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/O4PlaF13SH4?si=tx58PWpYgIemxkyR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                            case 6:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/WvyOQp33eKY?si=AIVhCd0uUtGygn2R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                            case 7:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/I2-h7Kz56dM?si=P80sOcZtfdt7W1gw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                            case 8:
+                                <div><iframe width="650" height="400" src="https://www.youtube.com/embed/KRYOSXVZMg0?si=FXJ6XXTo6d9b_rnQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                                break;
+                        }
+                       
+                    </div>
+                </div>
+
+            </ul>
             <hr />
 
         </div>
-        <br />
     }
 </form>
+
 

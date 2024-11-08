@@ -1,65 +1,188 @@
-﻿@model List<Seats>
-@{
-    ViewBag.Title = "Seats";
-}
+﻿@model MoviesAndSeats
 
-<div class="text-center" id="app">
-    <h5 class="display-6">{{ msg }}</h5>
-    <input type="" value="" />
-    <form method="post">
-        @foreach (var seat in Model)
-        {
-          
-            <button type="button"
-                    v-on:click="updateAvailability('@seat.SeatNumber')"
-                    :class="{'btn-danger': selectedSeat === '@seat.SeatNumber', 'btn-light': selectedSeat !== '@seat.SeatNumber'}">
-                @seat.SeatNumber
-            </button>
+<style>
+    .top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .imgMovie {
+        height: 350px;
+        width: 100%;
+        object-fit: cover;
+        flex-basis: 30%;
+    }
+
+    .descriptionMovie {
+        flex-basis: 70%;
+    }
+
+        .descriptionMovie p {
+            font-size: 20px;
+            letter-spacing: 2px;
+            line-height: 30px;
         }
-       
+
+    .btn-disabled {
+        background-color: #4F4F4F; /* 灰色表示已訂購 */
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .SeatMovie {
+        margin: 10px auto;
+        width: 750px;
+    }
+
+        .SeatMovie button {
+            font-size: 20px;
+            width: 70px;
+            border: 1px solid #000079;
+            border-radius: 10px 10px 0 0;
+            margin: 10px 2px;
+        }
+
+    .TimesMovie {
+        display: flex;
+    }
+
+    .TimesMovieOrder {
+        border: #fff solid 1px;
+        width: 40em;
+        margin-left: auto;
+        color: #000;
+        background-color: #e9dcfa;
+    }
+</style>
+
+<!-- 電影介紹 -->
+<div class="top">
+    <div>
+        <img src="~/lib/img/@Model.Movies.MoviePicture" alt="..." class="imgMovie">
+    </div>
+    <div class="descriptionMovie">
+        <h3>@Model.Movies.MovieTitle</h3><br />
+        <p>@Model.Movies.MovieDescription</p>
+    </div>
+</div>
+<hr />
+<div>
+    <p align="right" style="font-size:20px;">歡迎回來！ @ViewBag.UserName 會員🖐️</p>
+</div>
+<div id="app">
+    <form id="orderForm" asp-controller="Home" asp-action="OrderCheck" method="post">
+        <!-- 電影場次 -->
+        <div class="TimesMovie">
+            <h4 style="margin-right:30px;">電影場次</h4>
+            @foreach (var showtime in Model.Showtimes)
+            {
+                <span style="margin:0px 10px;">
+                    <a class="btn btn-primary" v-on:click="showSeats('@showtime.ShowDateTime.ToString("HH:mm")', '@showtime.ShowtimeID')">@showtime.ShowDateTime.ToString("HH:mm")</a>
+                </span>
+            }
+            <div class="TimesMovieOrder" v-show="isShow">
+                <h4 style="border:#fff solid 1px;background-color:#D7C3F1;padding:5px 20px;">訂單詳情</h4>
+                <div style="margin:1em 8em;">
+                    <h5>⊹ &nbsp;場次：<span style="color:#E65C19;font-weight:bold;">{{time}}</span></h5>
+                    <h5 v-if="selectedSeats.length > 0">⊹ &nbsp;數量： <span style="color:#D91656">{{selectedSeats.length}}</span> 個座位</h5>
+                    <h5>⊹ &nbsp;座位：<span style="color:#D91656">{{seat}}</span></h5>
+                <!-- 隱藏的輸入欄位 -->
+                <input type="hidden" name="ShowtimeID" :value="selectedShowtimeID">
+                <input type="hidden" name="SelectedSeats" :value="JSON.stringify(selectedSeatIDs)">
+                <input type="hidden" name="TotalAmount" :value="calculateTotalAmount()">
+                    <input type="submit" value="確  認" class="btn btn-outline-warning " :disabled="!isFormValid" style="margin-top:12px;width:8em; font-weight:bold;font-size:18px;">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 電影座位 -->
+        <div class="SeatMovie" v-show="isShow">
+            <h3>@Model.Theaters.TheaterName</h3>
+            <div style="border:#686D76; text-align:center; font-size:18px; ">銀幕位置</div>
+            @foreach (var seat in Model.Seats)
+            {
+                <button type="button"
+                        v-on:click="toggleSeatSelection('@seat.SeatNumber', '@seat.SeatID')"
+                        :class="{
+                    'btn-danger': selectedSeats.includes('@seat.SeatNumber'),
+                    'btn-light': !selectedSeats.includes('@seat.SeatNumber') && !bookedSeats.includes('@seat.SeatNumber'),
+                    'btn-disabled': bookedSeats.includes('@seat.SeatNumber')
+                }">
+                    @seat.SeatNumber
+                </button>
+            }
+        </div>
     </form>
 </div>
-<div>
-    <a asp-action="Index">↫ Back to Home</a>
-</div>
-
-@section Scripts {
-  
-
-    <script>
-        const app = Vue.createApp({
-            data() {
-                return {
-                    msg: "選擇座位",
-                    selectedSeat: null, // 追蹤選中的座位
-                }
-            },
-            methods: {
-                async updateAvailability(seatNumber) {
-                    try {
-                        // 發送 POST 請求到後端
-                        const response = await fetch('/Home/UpdateAvailability', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ seatNumber: seatNumber })
-                        });
-
-                        if (response.ok) {
-                            this.selectedSeat = seatNumber; // 更新選中的座位
-                            this.msg = `已預訂 ${seatNumber}`; // 更新消息
-                        } else {
-                            this.msg = "更新失敗";
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        this.msg = "更新失敗";
-                    }
-                }
+<script>
+const vm = Vue.createApp({
+    data() {
+        return {
+            isShow: false,
+            selectedSeats: [],
+            selectedSeatIDs: [],
+            bookedSeats: [],
+            time: "",
+            seat: "",
+            selectedShowtimeID: null,
+            ticketPrice: 100
+            
+        };
+    },
+    computed: {
+        isFormValid() {
+            return this.selectedShowtimeID && this.selectedSeats.length > 0;
+        }
+    },
+    methods: {
+        showSeats(showTime, showtimeID) {
+            this.isShow = true;
+            this.time = showTime;
+            this.selectedShowtimeID = showtimeID;
+            this.selectedSeats = [];
+            this.selectedSeatIDs = [];
+            this.seat = "";
+            this.fetchBookedSeats(); // 在這裡調用獲取已預訂座位的方法
+        },
+        toggleSeatSelection(seatNumber, seatID) {
+            if (this.bookedSeats.includes(seatNumber)) {
+                return; // 如果座位已被預訂，不允許選擇
             }
-        });
+            const seatIndex = this.selectedSeats.indexOf(seatNumber);
+            if (seatIndex > -1) {
+                this.selectedSeats.splice(seatIndex, 1);
+                this.selectedSeatIDs.splice(seatIndex, 1);
+            } else {
+                this.selectedSeats.push(seatNumber);
+                this.selectedSeatIDs.push(seatID);
+            }
+            this.seat = this.selectedSeats.join(', ');
+        },
+        calculateTotalAmount() {
+            return this.selectedSeats.length * this.ticketPrice;
+        },
+        submitOrder() {
+            console.log("訂單已提交");
+        },
+        fetchBookedSeats() {
+            if (!this.selectedShowtimeID) return;
 
-        const vm = app.mount('#app');
-    </script>
-}
+            fetch(`/Home/GetBookedSeats?showtimeID=${this.selectedShowtimeID}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.bookedSeats = data.bookedSeats;
+                })
+                .catch(error => {
+                    console.error('獲取已預訂座位時出錯：', error);
+                });
+        }
+    },
+    mounted() {
+        // 初始加載時不需要獲取已預訂座位，因為還沒有選擇場次
+    }
+}).mount('#app');
+</script>

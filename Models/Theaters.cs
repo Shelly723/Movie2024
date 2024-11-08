@@ -12,4 +12,7 @@ public partial class Theaters
     public string Location { get; set; } = null!;
 
     public int SeatingCapacity { get; set; }
+
+    // 與 Seats 的關聯
+    public ICollection<Seats> Seats { get; set; }
 }

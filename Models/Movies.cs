@@ -18,4 +18,6 @@ public partial class Movies
     public string? MovieDescription { get; set; }
 
     public string? MoviePicture { get; set; }
+
+    public ICollection<Showtimes> Showtimes { get; set; }
 }

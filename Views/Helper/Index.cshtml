@@ -5,7 +5,7 @@
 <div class="container">
     <div class="form-section">
         <h2>會 員 登 入</h2>
-        <form action="~/Helper/Login" method="post">
+        <form asp-controller="Helper" asp-action="Login" method="post">
             <div>
                 <label>帳 號</label>
                 <input type="text" name="id" class="form-control" required />
@@ -16,9 +16,12 @@
                 <input type="password" name="password" class="form-control" required />
             </div>
             <br />
+            <!-- 隱藏的 input 用來傳遞 MovieID -->
+            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
             <div class="button-container">
-                <input type="submit" name="submit" value="登 入" class="btn login-btn" />
-                <input type="submit" name="submit" value="註 冊" class="btn register-btn" />
+                <button type="submit" formaction="/Helper/Login" class="btn login-btn">登 入</button>
+                <a href="@Url.Action("Register", "Helper")" class="btn register-btn">註 冊</a>
+
             </div>
         </form>
     </div>

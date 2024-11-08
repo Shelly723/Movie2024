@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ShowtimeSeats>
+
+<h2>場次座位</h2>
+
+<table class="table" style="color:#fff">
+    <thead>
+        <tr>
+            <th>座位號碼</th>
+            <th>是否可用</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var showtimeSeat in Model)
+        {
+            <tr>
+                <td>@showtimeSeat.Seats.SeatNumber</td>
+                <td>@(showtimeSeat.IsAvailable == "Y" ? "可用" : "不可用")</td>
+            </tr>
+        }
+    </tbody>
+</table>

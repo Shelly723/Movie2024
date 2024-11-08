@@ -3,11 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/lib/img/favicon.ico" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/vue/vue.global.min.js"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Movie2024.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -18,21 +20,40 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex ">
+                    <ul class="navbar-nav flex-grow-1 justify-content-center" style="font-size:20px;">
                         <li class="nav-item" >
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">首頁</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">電影介紹</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Introduce">影廳介紹</a>
+                        </li>
+                      @*   <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Helper" asp-action="Index">會員登入</a>
-                        </li>
+                        </li> *@
                     </ul>
+                    
+                    @if (DateTime.Now.Hour < 12)
+                    {
+                        <div style="font-weight:bold;">早安！ @ViewBag.UserName ☀︎</div>
+                    }
+                    else if (DateTime.Now.Hour < 18)
+                    {
+                        <div style="font-weight:bold;">午安！ @ViewBag.UserName 🙂</div>
+                    }
+                    else
+                    {
+                        <div style="color:darkblue; font-weight:bold;">晚安！@ViewBag.UserName 🌙</div>
+                     
+                    }
+                    <form asp-action="Logout" asp-controller="Helper" method="post" style="display:inline;">
+                        <button type="submit" class="btn mx-lg-4" style="font-size:18px; color:#fff; border:none">登出</button>
+                        @Html.AntiForgeryToken()  <!--防範跨站請求偽造（CSRF）攻擊的安全措施-->
+                    </form>
+
                 </div>
             </div>
         </nav>
@@ -45,7 +66,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - Movie2024 - <a asp-area="" asp-controller="Home" asp-action="Index">Index</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration: none;"> &copy;</a>
+            本網頁僅供專題報告使用，所有相關圖片之版權均屬於原作者所有。如有侵權，請告知，我們將立即移除。
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

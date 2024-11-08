@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\OrderCheck.cshtml" />
     <None Include="wwwroot\lib\img\1.jpg" />
     <None Include="wwwroot\lib\img\2.jpg" />
     <None Include="wwwroot\lib\img\3.jpg" />
@@ -28,6 +29,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\OrderCheck.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\OrderCheck.cshtml" />
   </ItemGroup>
 
 </Project>

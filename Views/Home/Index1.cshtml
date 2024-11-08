@@ -1,0 +1,35 @@
+﻿@model List<Seats>
+
+<h2>Seats</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label for="file">選擇圖片檔案：</label>
+        <input type="file" id="file" name="file" />
+    </div>
+    <button type="submit">上傳</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>IsAvailable</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var seat in Model)
+        {
+        <td>
+            <a asp-action="Edit" asp-route-id="@seat.SeatID">編輯</a>
+            <a asp-action="UpdateSeat" asp-route-id="@seat.SeatID">更新</a> |
+            <a asp-action="DeleteSeat" asp-route-id="@seat.SeatID" onclick="return confirm('確定要刪除嗎？')">刪除</a>
+        </td>
+            <tr>
+                <td>@seat.SeatID</td>
+            <td>@seat.SeatNumber</td>
+
+                <td>@seat.IsAvailable</td>
+            </tr>
+        }
+    </tbody>
+</table>

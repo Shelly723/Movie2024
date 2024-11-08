@@ -14,4 +14,13 @@ public partial class Showtimes
     public DateTime ShowDateTime { get; set; }
 
     public int AvailableSeats { get; set; }
+
+    // 定義一對多的關聯
+    public ICollection<ShowtimeSeats> ShowtimeSeats { get; set; }
+
+    public Theaters Theater { get; set; } = null!;
+
+    public ICollection<Orders> Orders { get; set; }
+
+    public Movies Movies { get; set; }
 }

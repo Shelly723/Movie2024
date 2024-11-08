@@ -1,0 +1,52 @@
+﻿@model Orders
+<style>
+    .img-top{
+        display:flex;
+        justify-content:center;
+    }
+
+    .content {
+       margin: 0px 23%;
+      border:#fff solid 1px;
+       padding:20px 0 0 20px;
+
+    }
+
+    .content h3 {
+            color: #EE66A6;
+      
+    }
+</style>
+<div class="img-top">
+    <img src="~/lib/img/thank.png" />
+</div>
+<div style="margin-left:23%;">
+    <h4>感謝您的訂購！以下是您的訂單詳情：</h4>
+    <h5>訂單編號：@Model.Showtimes.ShowDateTime.Month@Model.Showtimes.ShowDateTime.Day D2CV4HQ @Model.OrderID</h5>
+</div>
+
+<div class="content">
+
+    <h3>場次資訊</h3>
+    <div style="margin:1em 4rem;font-size:20px;">
+    <p>電影名稱：@Model.Showtimes.Movies.MovieTitle</p>
+    <p>播放日期：@Model.Showtimes.ShowDateTime.ToString("yyyy-MM-dd")</p>
+    <p>播放時間：@Model.Showtimes.ShowDateTime.ToString("HH:mm")</p>
+    </div>
+
+    <h3>座位資訊</h3>
+    <div style="margin:1em 4rem;font-size:20px;">
+        @foreach (var seat in Model.OrderSeats.OrderBy(u =>u.SeatID) )
+        {
+            <p>◎ 座位號： @seat.Seats.SeatNumber</p>
+        }
+    </div>
+
+    <h3>付款資訊</h3>
+    <div style="margin:1em 4rem;font-size:20px;">
+    <p>總金額：NT$@Model.TotalAmount</p>
+    </div>
+  
+  
+</div>
+<h5 align="right" style="margin:10px 0;" >祝您 觀賞愉快！👍</h5>

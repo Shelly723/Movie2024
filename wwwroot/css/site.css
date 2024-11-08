@@ -24,3 +24,16 @@ body {
     background-size: cover;
     color: #fff;
 }
+@media screen and (max-width:980px) {
+    .imgMovie {
+        margin-bottom: 20px;
+    }
+
+    .TimesMovie {
+        flex-wrap: wrap;
+    }
+
+    .TimesMovieOrder{
+        margin-top:20px;
+        margin-right:20px;
+    }
